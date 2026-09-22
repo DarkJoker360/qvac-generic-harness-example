@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QVAC Assistant</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">Q</div>
+      <div>
+        <h1>QVAC Assistant</h1>
+        <p>100% on-device</p>
+      </div>
+    </div>
+
+    <nav class="modes" id="modes">
+      <button class="mode active" data-mode="chat"><span>💬</span> Chat</button>
+      <button class="mode" data-mode="image"><span>🎨</span> Image</button>
+      <button class="mode" data-mode="music"><span>🎵</span> Music</button>
+      <button class="mode" data-mode="rag"><span>📚</span> Knowledge</button>
+    </nav>
+
+    <div class="panel">
+      <h2>Models</h2>
+      <ul class="caps" id="caps"></ul>
+      <button class="ghost" id="freeMem">Free heavy models</button>
+    </div>
+
+    <div class="panel log-panel">
+      <h2>Activity</h2>
+      <div class="log" id="log"></div>
+    </div>
+
+    <div class="hostinfo" id="hostinfo"></div>
+  </aside>
+
+  <main class="main">
+
+    <!-- CHAT -->
+    <section class="view active" data-view="chat">
+      <div class="thread" id="thread">
+        <div class="empty">
+          <h2>Everything runs on this machine</h2>
+          <p>Ask a question, attach an image, speak into the mic, or have replies read aloud. Models download on first use.</p>
+          <div class="chips">
+            <button class="chip" data-prompt="Explain what makes on-device AI different from cloud AI, in three bullets.">Why on-device?</button>
+            <button class="chip" data-prompt="Write a haiku about running a language model offline.">Write a haiku</button>
+            <button class="chip" data-prompt="Give me three ideas for a weekend project using a local LLM.">Project ideas</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="composer">
+        <div class="attachment" id="attachment" hidden>
+          <img id="attachmentPreview" alt="attachment preview" />
+          <button id="clearAttachment" title="Remove image">✕</button>
+        </div>
+        <div class="composer-row">
+          <label class="icon-btn" title="Attach an image (vision)">
+            📎<input type="file" id="imageInput" accept="image/*" hidden />
+          </label>
+          <button class="icon-btn" id="micBtn" title="Record from microphone">🎙️</button>
+          <textarea id="input" rows="1" placeholder="Ask anything…"></textarea>
+          <button class="send" id="send" title="Send">↑</button>
+        </div>
+        <div class="composer-opts">
+          <label><input type="checkbox" id="useRag" /> Ground answers in my documents (RAG)</label>
+          <label><input type="checkbox" id="autoSpeak" /> Read replies aloud (TTS)</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMAGE -->
+    <section class="view" data-view="image">
+      <div class="pane">
+        <h2>Image generation</h2>
+        <textarea id="imgPrompt" rows="3" placeholder="a lighthouse at dusk, dramatic clouds, oil painting">a red fox in a snowy forest, soft morning light, highly detailed</textarea>
+        <div class="row">
+          <label>Size
+            <select id="imgSize">
+              <option value="384">384 × 384 (fast)</option>
+              <option value="512" selected>512 × 512</option>
+              <option value="768">768 × 768 (slow)</option>
+            </select>
+          </label>
+          <label>Steps <input type="number" id="imgSteps" value="20" min="4" max="50" /></label>
+          <button class="primary" id="imgGo">Generate</button>
+        </div>
+        <div class="progress" id="imgProgress" hidden><div class="bar"><i></i></div><span></span></div>
+        <div class="result" id="imgResult"></div>
+      </div>
+    </section>
+
+    <!-- MUSIC -->
+    <section class="view" data-view="music">
+      <div class="pane">
+        <h2>Music generation</h2>
+        <textarea id="musicCaption" rows="2" placeholder="dreamy lo-fi hip hop with warm rhodes and vinyl crackle">dreamy lo-fi hip hop with warm rhodes piano and vinyl crackle</textarea>
+        <textarea id="musicLyrics" rows="3" placeholder="Lyrics (optional — leave empty for instrumental)"></textarea>
+        <div class="row">
+          <label>Duration <input type="number" id="musicDuration" value="20" min="5" max="60" /> s</label>
+          <button class="primary" id="musicGo">Generate</button>
+        </div>
+        <div class="progress" id="musicProgress" hidden><div class="bar"><i></i></div><span></span></div>
+        <div class="result" id="musicResult"></div>
+      </div>
+    </section>
+
+    <!-- RAG -->
+    <section class="view" data-view="rag">
+      <div class="pane">
+        <h2>Knowledge base</h2>
+        <p class="sub">Paste or upload text. It is embedded on-device and used to ground chat answers when “Ground answers in my documents” is on.</p>
+        <textarea id="ragText" rows="8" placeholder="Paste documents here. Separate multiple documents with a blank line."></textarea>
+        <div class="row">
+          <label class="filebtn">Upload .txt / .md
+            <input type="file" id="ragFile" accept=".txt,.md,text/*" multiple hidden />
+          </label>
+          <button class="primary" id="ragGo">Ingest</button>
+          <button class="ghost" id="ragClear">Clear knowledge base</button>
+        </div>
+        <div class="result" id="ragResult"></div>
+        <h3>Test retrieval</h3>
+        <div class="row">
+          <input type="text" id="ragQuery" placeholder="Search your documents…" />
+          <button class="ghost" id="ragSearchGo">Search</button>
+        </div>
+        <div class="result" id="ragSearchResult"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+<script src="/app.js" type="module"></script>
+</body>
+</html>

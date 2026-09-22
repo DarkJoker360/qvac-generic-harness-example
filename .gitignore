@@ -1,0 +1,16 @@
+# Dependencies — ~4.8 GB of prebuilt native engines, restore with `npm install`
+node_modules/
+
+# Runtime output
+data/uploads/
+data/smoke/
+
+# Local-only material
+data/corpus/
+eval/
+QVAC_DOCS.md
+
+# Models are cached globally in ~/.qvac, never in the repo
+
+.DS_Store
+*.log

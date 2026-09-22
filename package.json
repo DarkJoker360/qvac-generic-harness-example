@@ -1,0 +1,19 @@
+{
+  "name": "qvac-assistant-demo",
+  "version": "1.0.0",
+  "description": "Local-first multimodal AI assistant built on @qvac/sdk",
+  "main": "index.js",
+  "scripts": {
+    "test": "QVAC_CONFIG_PATH=./qvac.config.json node smoke.js",
+    "start": "QVAC_CONFIG_PATH=./qvac.config.json node server.js",
+    "smoke": "QVAC_CONFIG_PATH=./qvac.config.json node smoke.js",
+    "dev": "QVAC_CONFIG_PATH=./qvac.config.json node --watch server.js",
+    "smoke:http": "bash http-smoke.sh"
+  },
+  "keywords": [],
+  "type": "module",
+  "dependencies": {
+    "@qvac/sdk": "^0.19.1",
+    "express": "^5.2.1"
+  }
+}
